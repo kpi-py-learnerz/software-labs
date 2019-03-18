@@ -1,0 +1,24 @@
+{
+  "plants": [
+    {
+      "name": "Cactus",
+      "watering-period": "7",
+      "water-amount-per-cubic-decimeter": "10"
+    },
+    {
+      "name": "Ficus",
+      "watering-period": "4",
+      "water-amount-per-cubic-decimeter": "50"
+    },
+    {
+      "name": "Lily",
+      "watering-period": "4",
+      "water-amount-per-cubic-decimeter": "50"
+    },
+    {
+      "name": "Rose",
+      "watering-period": "4",
+      "water-amount-per-cubic-decimeter": "50"
+    }
+  ]
+}
