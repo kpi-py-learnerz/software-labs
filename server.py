@@ -23,8 +23,8 @@ class Plants(Resource):
         return self.data
 
 
-g = Garden()
-api.add_resource(Plants, '/')
+api.add_resource(Plants, '/plants/')
+api.add_resource(Garden, '/garden/')
 
 if __name__ == '__main__':
     app.run(debug=True)
