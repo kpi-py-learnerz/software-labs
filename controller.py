@@ -1,15 +1,82 @@
 # Packages for pretty printing
-from clint.arguments import Args
-from clint.textui import puts, colored, indent
-# Or that one
-import PyInquirer
+from __future__ import print_function, unicode_literals
+from PyInquirer import style_from_dict, Token, prompt, Separator
+from pprint import pprint
 
-import state_machine
+
+style = style_from_dict({
+    Token.Separator: '#cc5454',
+    Token.QuestionMark: '#673ab7 bold',
+    Token.Selected: '#cc5454',  # default
+    Token.Pointer: '#673ab7 bold',
+    Token.Instruction: '',  # default
+    Token.Answer: '#f44336 bold',
+    Token.Question: '',
+})
+
+
+questions = [
+    {
+        'type': 'checkbox',
+        'message': 'Select toppings',
+        'name': 'toppings',
+        'choices': [
+            Separator('= The Meats ='),
+            {
+                'name': 'Ham'
+            },
+            {
+                'name': 'Ground Meat'
+            },
+            {
+                'name': 'Bacon'
+            },
+            Separator('= The Cheeses ='),
+            {
+                'name': 'Mozzarella',
+                'checked': True
+            },
+            {
+                'name': 'Cheddar'
+            },
+            {
+                'name': 'Parmesan'
+            },
+            Separator('= The usual ='),
+            {
+                'name': 'Mushroom'
+            },
+            {
+                'name': 'Tomato'
+            },
+            {
+                'name': 'Pepperoni'
+            },
+            Separator('= The extras ='),
+            {
+                'name': 'Pineapple'
+            },
+            {
+                'name': 'Olives',
+                'disabled': 'out of stock'
+            },
+            {
+                'name': 'Extra cheese'
+            }
+        ],
+        'validate': lambda answer: 'You must choose at least one topping.' \
+            if len(answer) == 0 else True
+    }
+]
+
+
+answers = prompt(questions, style=style)
+pprint(answers)
 
 
 class Controller:
-    def scan(self, prompt):
-        input(prompt)
+    def scan(self, questions):
+        self.answers = prompt(questions, style=style)
 
     def print(self, what):
-        print(what)
+        pprint(self.answers)

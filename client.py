@@ -21,6 +21,5 @@ def main():
     else:
         controller.print("Quitting...")
 
-
 if __name__ == '__main__':
     main()
