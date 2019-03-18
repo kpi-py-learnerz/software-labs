@@ -1,39 +1,7 @@
 from __future__ import print_function, unicode_literals
-
-"""import json
-from flask import request
-from controller import Controller
-
-SERVER_IP = "http://127.0.0.1:5000/"
-controller = Controller()
-
-
-def is_quit(choice):
-    return choice == 'q'
-
-
-def main():
-    while True:
-        prompt = {}
-        choice = json.dumps(controller.scan(prompt))
-        if is_quit(choice):
-            break
-        response = request.post(SERVER_IP, json=choice).json()
-        controller.print(response)
-    else:
-        controller.print("Quitting...")
-
-if __name__ == '__main__':
-    main()
-"""
-import json
-SERVER_IP = "http://127.0.0.1:5000/"
-
-
-# Packages for pretty printing
-
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from pprint import pprint
+import requests
 
 
 style = style_from_dict({
@@ -92,88 +60,56 @@ state_q = [
 ]
 
 
-def plant_to_str(plant):
-    return ", ".join(["%s: %s" % (k, v) for k, v in plant.items()])
+def dict_item_to_str(dict_item):
+    return ", ".join(["%s: %s" % (k, v) for k, v in dict_item.items()])
 
 
-class PlantOption:
+class Option:
     """
-    Simple plant wrapper
+    Simple PyInquirer option wrapper
     """
-    def __init__(self, plant):
-        self.plant = plant
-        self.str = plant_to_str(self.plant)
+    def __init__(self, option):
+        self.option = option
+        self.str = dict_item_to_str(self.option)
 
     def split(self, c):
         return self.str.split(c)
 
 
-def pots_to_questions(json):
-    return [{"name": PlantOption(plant)} for plant in json]
+def dict_list_to_option_list(dict_list):
+    return [{"name": Option(dict_item)} for dict_item in dict_list]
 
 
-def plants_options_to_menu(plants_options):
-    plants_menu = [Separator('= Оберіть рослину =')]
-    plants_menu = plants_menu + plants_options
+def option_list_to_menu(menu_head, option_list):
+    plants_menu = [Separator(menu_head)]
+    plants_menu = plants_menu + option_list
     return [
         {
             'type': 'checkbox',
             'message': 'Select plants',
             'name': 'plants',
             'choices': plants_menu,
-            'validate': lambda answer: 'You must choose at least one topping.' \
+            'validate': lambda answer: 'You must choose at least one option.'
                 if len(answer) == 0 else True
         }
     ]
 
-"""plants = {
-  "time": {
-    "min": "10",
-    "hour": "10",
-    "date": {
-      "day": "0",
-      "month": "0",
-      "year": "1970"
-    }
-  },
-  "pots": [
-    {
-      "plant": "Cactuss",
-      "water-percentage": "100",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Cactus",
-      "water-percentage": "100",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Ficus",
-      "water-percentage": "100",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Lily",
-      "water-percentage": "100",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Rose",
-      "water-percentage": "100",
-      "pot-size": "999"
-    }
-  ]
-}
-"""
 
-import requests
+SERVER_IP = "http://127.0.0.1:5000"  # note here's no slash
+
+
+def get_request(sub_uri=''):
+    return requests.get(SERVER_IP + sub_uri)
+
+
 def main():
     while True:
-        choice = 1;
-        response = requests.post(SERVER_IP, json={})
-
-        questions = plants_options_to_menu(pots_to_questions(response.json()))
-        choice = prompt(questions, style=style)
+        response = get_request('/garden/')
+        # response = get_request('/plants/')
+        response_json = response.json()
+        option_list = dict_list_to_option_list(response_json['pots'])
+        menu = option_list_to_menu('= Оберіть горщик =', option_list)
+        choice = prompt(menu, style=style)
         pprint(choice)
         if not True:
             break
