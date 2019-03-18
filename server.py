@@ -24,7 +24,7 @@ class Plants(Resource):
 
 
 g = Garden()
-api.add_resource(Garden, '/')
+api.add_resource(Plants, '/')
 
 if __name__ == '__main__':
     app.run(debug=True)
