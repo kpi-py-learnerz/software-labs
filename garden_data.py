@@ -10,4 +10,4 @@ class JsonData:
 class GardenData:
     def __init__(self, plants_path, garden_path):
         self.plants = JsonData(plants_path).data
-        self.garden = JsonData(garden_path).data
+        self.pots = JsonData(garden_path).data
