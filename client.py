@@ -1,6 +1,7 @@
 from __future__ import print_function, unicode_literals
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from pprint import pprint
+from terminaltables import SingleTable
 import requests
 
 
@@ -15,121 +16,109 @@ style = style_from_dict({
 })
 
 
-start_q = [
-    {
-        'type': 'checkbox',
-        'message': 'Select plants',
-        'name': 'plants',
-        'choices': [
-            Separator('= Оберіть операцію ='),
-            {
-                'name': 'Вивести стан всіх квіток'
-            },
-            {
-                'name': 'Вийти'
-            }
-        ],
-        'validate': lambda answer: 'You must choose at least one topping.' \
-            if len(answer) == 0 else True
-    }
-]
+def make_question(question_type, message, name, choices):
+    return {'type': question_type, 'message': message,
+            'name': name, 'choices': choices}
 
-state_q = [
-    {
-        'type': 'checkbox',
-        'message': 'Select toppings',
-        'name': 'toppings',
-        'choices': [
-            Separator('= Оберіть операцію ='),
-            {
-                'name': 'Полити квіти'
-            },
-            {
-                'name': 'Додати квітку'
-            },
-            {
-                'name': 'Видалити квітку'
-            },
-            {
-                'name': 'Вийти'
-            }
-        ],
-        'validate': lambda answer: 'You must choose at least one topping.' \
-            if len(answer) == 0 else True
-    }
-]
+
+def option_value_dict_to_question(question_type, message, name, option_value_dict):
+    choices = [{'name': key, 'value': value} for key, value in option_value_dict.items()]
+    return make_question(question_type, message, name, choices)
+
+
+def dict_to_pretty_str(d):
+    return ', '.join('%s: %s' % (k, v) for k, v in d.items())
+
+
+def dict_list_to_multi_select_question(message, name, dict_list):
+    choices, i = [], 0
+    for d in dict_list:
+        choices.append({'name': dict_to_pretty_str(d), 'value': i})
+        i += 1
+    question = make_question('checkbox', message, name, choices)
+    return question
+
+
+class ResourceClient:
+    def __init__(self, uri, json_key):
+        self.uri = uri
+        self.json_key = json_key
+
+    def get(self):
+        return requests.get(self.uri).json()[self.json_key]
+
+    def print(self):
+        resource = self.get()
+        print(resource)
+        attribute_names = tuple(k for k, v in resource[0].items())
+        rows = [tuple(row[attribute_name] for attribute_name in attribute_names) for row in resource]
+        t_table = SingleTable([attribute_names] + rows)
+        print(t_table.table)
+
+    def post(self, json_maker):
+        self.print()
+        response = requests.post(self.uri, json=json_maker())
+        # self._print_water_response(water_response)
+        self.print()
+
+
+class GardenClient:
+    SERVER_IP = "http://127.0.0.1:5000"  # note here's no slash
+
+    def __init__(self):
+        self.pots_resource = ResourceClient(self.SERVER_IP + '/pots/', 'pots')
+        self.plants_resource = ResourceClient(self.SERVER_IP + '/plants/', 'plants')
+        self.option_function_dict = {
+            'Полити вазон': self.water_pot,
+            'Додати вазон': self.add_pot,
+            'Видалити вазон': self.delete_pot
+        }
+        message = 'Виберіть операцію'
+        self.operation_key = 'operation'
+        self.questions = [
+            option_value_dict_to_question('list', message, self.operation_key, self.option_function_dict)
+        ]
+
+    @staticmethod
+    def _make_post_json(operation, ids):
+        return {'operation': operation, 'ids': ids}
+
+    def _prompt_post_json(self, operation, resource_name):
+        pots = self.pots_resource.get()
+        question_message = 'Виберіть хоча б 1 %s' % resource_name
+        questions = [dict_list_to_multi_select_question(question_message, 'pots', pots)]
+        ids = prompt(questions)
+        while len(ids['pots']) == 0:
+            ids = prompt(questions)
+        print(ids)
+        return self._make_post_json(operation, ids['pots'])
+
+    def water_pot(self):
+        self.pots_resource.post(lambda: self._prompt_post_json('water', 'вазон'))
+
+    def add_pot(self):
+        pass
+
+    def delete_pot(self):
+        self.pots_resource.post(lambda: self._prompt_post_json('delete', 'вазон'))
+
+    def prompt(self):
+        operation = prompt(self.questions)[self.operation_key]
+        operation()
 
 
 def dict_item_to_str(dict_item):
     return ", ".join(["%s: %s" % (k, v) for k, v in dict_item.items()])
 
 
-class Option:
-    """
-    Simple PyInquirer option wrapper
-    """
-    def __init__(self, option):
-        self.option = option
-        self.str = dict_item_to_str(self.option)
-
-    def split(self, c):
-        return self.str.split(c)
-
-
-def dict_list_to_option_list(dict_list):
-    return [{"name": Option(dict_item)} for dict_item in dict_list]
-
-
-def option_list_to_menu(menu_head, option_list):
-    plants_menu = [Separator(menu_head)]
-    plants_menu = plants_menu + option_list
-    return [
-        {
-            'type': 'checkbox',
-            'message': 'Select plants',
-            'name': 'plants',
-            'choices': plants_menu,
-            'validate': lambda answer: 'You must choose at least one option.'
-                if len(answer) == 0 else True
-        }
-    ]
-
-
-SERVER_IP = "http://127.0.0.1:5000"  # note here's no slash
-
-
-def get_request(sub_uri=''):
-    return requests.get(SERVER_IP + sub_uri)
-
-
 def main():
-    while True:
-        response = get_request('/garden/')
-        # response = get_request('/plants/')
-        response_json = response.json()
-        option_list = dict_list_to_option_list(response_json['pots'])
-        menu = option_list_to_menu('= Оберіть горщик =', option_list)
-        choice = prompt(menu, style=style)
-        pprint(choice)
-        if not True:
-            break
-    else:
-        print("Quitting...")
+    garden_client = GardenClient()
+    try:
+        while True:
+            garden_client.prompt()
+    except:
+        print("Error has occurred")
 
 
 if __name__ == '__main__':
     main()
-
-# answers = prompt(questions, style=style)
-# pprint(answers)
-
-"""
-
-class Controller:
-    def scan(self, questions):
-        self.answers = prompt(questions, style=style)
-
-    def print(self, what):
-        pprint(self.answers)
-
-"""
