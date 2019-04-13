@@ -1,16 +1,15 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 from garden_data import GardenData
-import garden_logic
 
 app = Flask(__name__)
 api = Api(app)
-garden_data = GardenData('plants.json', 'garden.json')
+garden_data = GardenData('plants.json', 'pots.json')
 
 
 class Pots(Resource):
     def __init__(self):
-        self.data = garden_data.pots
+        self.data = garden_data.pots.data
 
     def get(self):
         return self.data
@@ -23,7 +22,7 @@ class Pots(Resource):
 
 class Plants(Resource):
     def __init__(self):
-        self.data = garden_data.plants
+        self.data = garden_data.plants.data
 
     def get(self):
         return self.data

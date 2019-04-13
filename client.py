@@ -1,6 +1,7 @@
 from __future__ import print_function, unicode_literals
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from pprint import pprint
+from terminaltables import SingleTable
 import requests
 
 
@@ -47,9 +48,12 @@ class ResourceClient:
         return requests.get(self.uri).json()[self.json_key]
 
     def print(self):
-        # TODO the printer
         resource = self.get()
         print(resource)
+        attribute_names = tuple(k for k, v in resource[0].items())
+        rows = [tuple(row[attribute_name] for attribute_name in attribute_names) for row in resource]
+        t_table = SingleTable([attribute_names] + rows)
+        print(t_table.table)
 
     def post(self, json_maker):
         self.print()
@@ -74,15 +78,6 @@ class GardenClient:
         self.questions = [
             option_value_dict_to_question('list', message, self.operation_key, self.option_function_dict)
         ]
-
-    @staticmethod
-    def _print_pots(pots):
-        # TODO the printer
-        pprint(pots)
-
-    def print_all_pots(self):
-        pots = self.pots_resource.get()
-        self._print_pots(pots)
 
     @staticmethod
     def _make_post_json(operation, ids):
