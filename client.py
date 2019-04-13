@@ -1,6 +1,7 @@
 from __future__ import print_function, unicode_literals
 from PyInquirer import style_from_dict, Token, prompt, Separator
 from pprint import pprint
+from terminaltables import SingleTable
 import requests
 
 
@@ -13,26 +14,6 @@ style = style_from_dict({
     Token.Answer: '#f44336 bold',
     Token.Question: '',
 })
-
-
-start_q = [
-    {
-        'type': 'checkbox',
-        'message': 'Select plants',
-        'name': 'plants',
-        'choices': [
-            Separator('= Оберіть операцію ='),
-            {
-                'name': 'Вивести стан всіх квіток'
-            },
-            {
-                'name': 'Вийти'
-            }
-        ],
-        'validate': lambda answer: 'You must choose at least one topping.' \
-            if len(answer) == 0 else True
-    }
-]
 
 
 def make_question(question_type, message, name, choices):
@@ -67,9 +48,12 @@ class ResourceClient:
         return requests.get(self.uri).json()[self.json_key]
 
     def print(self):
-        # TODO the printer
         resource = self.get()
         print(resource)
+        attribute_names = tuple(k for k, v in resource[0].items())
+        rows = [tuple(row[attribute_name] for attribute_name in attribute_names) for row in resource]
+        t_table = SingleTable([attribute_names] + rows)
+        print(t_table.table)
 
     def post(self, json_maker):
         self.print()
@@ -94,15 +78,6 @@ class GardenClient:
         self.questions = [
             option_value_dict_to_question('list', message, self.operation_key, self.option_function_dict)
         ]
-
-    @staticmethod
-    def _print_pots(pots):
-        # TODO the printer
-        pprint(pots)
-
-    def print_all_pots(self):
-        pots = self.pots_resource.get()
-        self._print_pots(pots)
 
     @staticmethod
     def _make_post_json(operation, ids):
@@ -137,7 +112,6 @@ def dict_item_to_str(dict_item):
 
 
 def main():
-    prompt(start_q)
     garden_client = GardenClient()
     while True:
         garden_client.prompt()

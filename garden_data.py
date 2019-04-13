@@ -1,13 +1,23 @@
 import json
+import garden_logic
 
 
 class JsonData:
     def __init__(self, path):
+        self.path = path
         with open(path) as stream:
             self.data = json.load(stream)
 
+    def dump(self):
+        with open(self.path) as gfp:
+            json.dump(self.data, gfp)
+
 
 class GardenData:
-    def __init__(self, plants_path, garden_path):
-        self.plants = JsonData(plants_path).data
-        self.pots = JsonData(garden_path).data
+    def __init__(self, plants_path, pots_path):
+        self.plants = JsonData(plants_path)
+        self.pots = JsonData(pots_path)
+
+    def dump(self):
+        self.plants.dump()
+        self.pots.dump()

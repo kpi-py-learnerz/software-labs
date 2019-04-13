@@ -1,0 +1,38 @@
+{
+  "time": {
+    "min": "10",
+    "hour": "10",
+    "date": {
+      "day": "0",
+      "month": "0",
+      "year": "1970"
+    }
+  },
+  "pots": [
+    {
+      "plant": "Cactus",
+      "water-percentage": "100",
+      "pot-size": "999"
+    },
+    {
+      "plant": "Cactus",
+      "water-percentage": "100",
+      "pot-size": "999"
+    },
+    {
+      "plant": "Ficus",
+      "water-percentage": "100",
+      "pot-size": "999"
+    },
+    {
+      "plant": "Lily",
+      "water-percentage": "100",
+      "pot-size": "999"
+    },
+    {
+      "plant": "Rose",
+      "water-percentage": "100",
+      "pot-size": "999"
+    }
+  ]
+}
