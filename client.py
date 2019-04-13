@@ -14,6 +14,7 @@ style = style_from_dict({
     Token.Question: '',
 })
 
+
 def make_question(question_type, message, name, choices):
     return {'type': question_type, 'message': message,
             'name': name, 'choices': choices}
