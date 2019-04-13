@@ -14,27 +14,6 @@ style = style_from_dict({
     Token.Question: '',
 })
 
-
-start_q = [
-    {
-        'type': 'checkbox',
-        'message': 'Select plants',
-        'name': 'plants',
-        'choices': [
-            Separator('= Оберіть операцію ='),
-            {
-                'name': 'Вивести стан всіх квіток'
-            },
-            {
-                'name': 'Вийти'
-            }
-        ],
-        'validate': lambda answer: 'You must choose at least one topping.' \
-            if len(answer) == 0 else True
-    }
-]
-
-
 def make_question(question_type, message, name, choices):
     return {'type': question_type, 'message': message,
             'name': name, 'choices': choices}
@@ -137,7 +116,6 @@ def dict_item_to_str(dict_item):
 
 
 def main():
-    prompt(start_q)
     garden_client = GardenClient()
     while True:
         garden_client.prompt()
