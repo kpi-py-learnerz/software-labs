@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="windows-1251" />
+    <title>Arh</title>
+    <style>
+        .button {
+            margin: 5px;
+            border: 5%;
+            color: black;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .__main {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .__what_to_do {
+            width: 35%;
+        }
+        .__plants_list {
+            border: solid black 1px;
+            width: 65%;
+        }
+
+        .button {
+            background-color: #cccccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+        }
+            .button:active {
+                box-shadow: 0 0 10px rgba(0, 0, 0, 1) inset;
+            }
+            .button:hover {
+                background-color: #acacac;
+            }
+
+        .__plants_manipulations {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        #__add_plant, #__refresh_plants {
+            width: 98%;
+        }
+
+        #__delete_plant, #__water_plants {
+            width: 50%;
+        }
+
+        .__input {
+            width: 33%;
+        }
+
+        .__input_fields {
+            margin: 2%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+        #__add_plant {
+
+        }
+    </style>
+</head>
+<body>
+    <div class="__main">
+        <div class="__what_to_do">
+            <button class="button" id="__refresh_plants">Оновити стан рослин</button>
+            <div class="__plants_manipulations">
+                <button class="button" id="__water_plants">Полити рослини</button>
+                <button class="button" id="__delete_plant">Видалити рослини</button>
+            </div>
+            <div class="__input_fields">
+                <a class="__input" id="__input_plant"><input maxlength="25" size="15" value="Рослина"></a>
+                <a class="__input" id="__input_pot"><input maxlength="25" size="15" value="Ємність горщика"></a>
+                <a class="__input" id="__input_watter"><input maxlength="25" size="15" value="Вологість"></a>
+            </div>
+            <button class="button" id="__add_plant">Додати рослину</button>
+        </div>
+        <div class="__plants_list">
+
+        </div>
+    </div>
+</body>
+</html>
