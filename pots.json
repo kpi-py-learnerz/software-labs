@@ -16,22 +16,22 @@
     },
     {
       "plant": "Cactus",
-      "water-percentage": "100",
+      "water-percentage": "10",
       "pot-size": "999"
     },
     {
       "plant": "Ficus",
-      "water-percentage": "100",
+      "water-percentage": "4",
       "pot-size": "999"
     },
     {
       "plant": "Lily",
-      "water-percentage": "100",
+      "water-percentage": "50",
       "pot-size": "999"
     },
     {
       "plant": "Rose",
-      "water-percentage": "100",
+      "water-percentage": "70",
       "pot-size": "999"
     }
   ]
