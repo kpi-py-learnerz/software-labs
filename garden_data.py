@@ -1,5 +1,4 @@
 import json
-import garden_logic
 
 
 class JsonData:
@@ -9,8 +8,8 @@ class JsonData:
             self.data = json.load(stream)
 
     def dump(self):
-        with open(self.path) as gfp:
-            json.dump(self.data, gfp)
+        with open(self.path, "w") as gfp:
+            json.dump(self.data, gfp, indent=True)
 
 
 class GardenData:

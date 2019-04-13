@@ -113,8 +113,11 @@ def dict_item_to_str(dict_item):
 
 def main():
     garden_client = GardenClient()
-    while True:
-        garden_client.prompt()
+    try:
+        while True:
+            garden_client.prompt()
+    except:
+        print("Error has occurred")
 
 
 if __name__ == '__main__':
