@@ -20,8 +20,11 @@ class Pots(Resource):
             'delete': self.logic_wrapper.delete,
             'add': self.logic_wrapper.add
         }
-        data = json['data']
-        operation_handler = operation_handlers[json['operation']]
+        try:
+            data = json['data']
+            operation_handler = operation_handlers[json['operation']]
+        except KeyError:
+            return 404
         operation_handler(data)
         self.logic_wrapper.json_wrap.dump()
 
@@ -38,8 +41,11 @@ class Plants(Resource):
         operation_handlers = {
             'add': self.logic_wrapper.add
         }
-        data = json['data']
-        operation_handler = operation_handlers[json['operation']]
+        try:
+            data = json['data']
+            operation_handler = operation_handlers[json['operation']]
+        except KeyError:
+            return 404
         operation_handler(data)
         self.logic_wrapper.json_wrap.dump()
 

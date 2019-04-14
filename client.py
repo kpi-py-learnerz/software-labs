@@ -1,22 +1,19 @@
 from __future__ import print_function, unicode_literals
-from PyInquirer import style_from_dict, Token, prompt, Separator
-from pprint import pprint
+from PyInquirer import style_from_dict, Token, prompt
 from terminaltables import SingleTable
 import requests
 
 
-style = style_from_dict({
-    Token.Separator: '#cc5454',
-    Token.QuestionMark: '#673ab7 bold',
-    Token.Selected: '#cc5454',  # default
-    Token.Pointer: '#673ab7 bold',
-    Token.Instruction: '',  # default
-    Token.Answer: '#f44336 bold',
-    Token.Question: '',
-})
-
-
 def safe_prompt(questions):
+    style = style_from_dict({
+        Token.Separator: '#cc5454',
+        Token.QuestionMark: '#673ab7 bold',
+        Token.Selected: '#cc5454',  # default
+        Token.Pointer: '#673ab7 bold',
+        Token.Instruction: '',  # default
+        Token.Answer: '#f44336 bold',
+        Token.Question: '',
+    })
     answer = prompt(questions, style=style)
     if answer == {}:
         raise KeyboardInterrupt
@@ -73,16 +70,15 @@ class ResourceClient:
 def validate_str(value): return len(value.split()) != 0
 
 
-def validate_integer(value):
+def validate_unsigned(value):
     try:
-        int(value)
-        return True
+        return int(value) >= 0
     except ValueError:
         return False
 
 
 def validate_percentage(value):
-    return validate_integer(value) and int(value) <= 100
+    return validate_unsigned(value) and int(value) <= 100
 
 
 def capitalize_all_words(val):
@@ -142,14 +138,14 @@ class GardenClient:
                 'type': 'input',
                 'name': "watering-period",
                 'message': message_format % "період поливу",
-                'validate': validate_integer,
+                'validate': validate_unsigned,
                 'filter': str
             },
             {
                 'type': 'input',
                 'name': "water-amount-per-cubic-decimeter",
                 'message': message_format % "кількість води на дм^3",
-                'validate': validate_integer,
+                'validate': validate_unsigned,
                 'filter': str
             }
         ]
@@ -182,7 +178,7 @@ class GardenClient:
                 'type': 'input',
                 'name': 'pot-size',
                 'message': message_format % "розмір горщика",
-                'validate': validate_integer,
+                'validate': validate_unsigned,
                 'filter': str
             }
         ]
