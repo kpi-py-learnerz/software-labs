@@ -16,22 +16,32 @@ class Pots(Resource):
     def post(self):
         json = request.get_json(force=True)
         operation_handlers = {
-            'water': self.logic_wrapper.water_pot,
-            'delete': self.logic_wrapper.delete_pot
+            'water': self.logic_wrapper.water,
+            'delete': self.logic_wrapper.delete,
+            'add': self.logic_wrapper.add
         }
-        ids = json['ids']
+        data = json['data']
         operation_handler = operation_handlers[json['operation']]
-        for i in ids:
-            operation_handler(i)
+        operation_handler(data)
         self.logic_wrapper.json_wrap.dump()
 
 
 class Plants(Resource):
     def __init__(self):
-        self.data = garden_logic.Plants()
+        self.logic_wrapper = garden_logic.Plants()
 
     def get(self):
-        return self.data
+        return self.logic_wrapper.json_wrap.data
+
+    def post(self):
+        json = request.get_json(force=True)
+        operation_handlers = {
+            'add': self.logic_wrapper.add
+        }
+        data = json['data']
+        operation_handler = operation_handlers[json['operation']]
+        operation_handler(data)
+        self.logic_wrapper.json_wrap.dump()
 
 
 api.add_resource(Plants, '/plants/')
