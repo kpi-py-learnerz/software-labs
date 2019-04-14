@@ -8,7 +8,7 @@ class JsonData:
             self.data = json.load(stream)
 
     def dump(self):
-        with open(self.path, "w") as gfp:
+        with open(self.path, "w", encoding='utf-8') as gfp:
             json.dump(self.data, gfp, indent=True)
 
 

@@ -1,38 +1,58 @@
 {
-  "time": {
-    "min": "10",
-    "hour": "10",
-    "date": {
-      "day": "0",
-      "month": "0",
-      "year": "1970"
-    }
+ "time": {
+  "min": "10",
+  "hour": "10",
+  "date": {
+   "day": "0",
+   "month": "0",
+   "year": "1970"
+  }
+ },
+ "pots": [
+  {
+   "plant": "Cactus",
+   "water-percentage": "100",
+   "pot-size": "999"
   },
-  "pots": [
-    {
-      "plant": "Cactus",
-      "water-percentage": "100",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Cactus",
-      "water-percentage": "10",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Ficus",
-      "water-percentage": "4",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Lily",
-      "water-percentage": "50",
-      "pot-size": "999"
-    },
-    {
-      "plant": "Rose",
-      "water-percentage": "70",
-      "pot-size": "999"
-    }
-  ]
+  {
+   "plant": "Cactus",
+   "water-percentage": "10",
+   "pot-size": "999"
+  },
+  {
+   "plant": "Ficus",
+   "water-percentage": "4",
+   "pot-size": "999"
+  },
+  {
+   "plant": "Lily",
+   "water-percentage": "100",
+   "pot-size": "999"
+  },
+  {
+   "plant": "Rose",
+   "water-percentage": "70",
+   "pot-size": "999"
+  },
+  {
+   "water-percentage": "20",
+   "pot-size": "100",
+   "plant": "Cactus"
+  },
+  {
+   "water-percentage": "10",
+   "pot-size": "100",
+   "plant": "\u041e\u0432\u043e\u0447 \u0417\u0432\u0438\u0447\u0430\u0439\u043d\u0438\u0439"
+  },
+  {
+   "water-percentage": "100",
+   "pot-size": "50",
+   "plant": "\u0424\u0456\u0430\u043b\u043a\u0430"
+  },
+  {
+   "water-percentage": "0",
+   "pot-size": "100",
+   "plant": "Weed"
+  }
+ ]
 }
