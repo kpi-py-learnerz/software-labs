@@ -48,6 +48,11 @@
    "water-percentage": "100",
    "pot-size": "50",
    "plant": "\u0424\u0456\u0430\u043b\u043a\u0430"
+  },
+  {
+   "water-percentage": "0",
+   "pot-size": "100",
+   "plant": "Weed"
   }
  ]
 }
