@@ -53,9 +53,17 @@ class ResourceClient:
         return requests.get(self.uri).json()[self.json_key]
 
     def put(self):
+        """
+
+        :return:
+        """
         pass
 
     def delete(self):
+        """
+
+        :return:
+        """
         pass
 
     def print(self):
