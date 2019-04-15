@@ -190,7 +190,6 @@ class GardenClient:
         self.pots_resource.post(self._prompt_pot)
 
     """
-    
     def _prompt_update_pot(self):
         selected_json =  self._prompt_selection_post_json('checkbox', 'water', 'вазон')
         ids = selected_json['ids']
@@ -199,7 +198,6 @@ class GardenClient:
 
     def update_pot(self):
         self.pots_resource.post(self._prompt_update_pot)
-        
     """
 
     def delete_pot(self):
