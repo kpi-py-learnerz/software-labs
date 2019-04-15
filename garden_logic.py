@@ -7,6 +7,7 @@ class Pots:
     """
     Class-wrapper for business logic.
     """
+
     FIELDS = ["plant", "water-percentage", "pot-size"]
 
     def __init__(self):
