@@ -14,12 +14,10 @@
             font-size: 16px;
             cursor: pointer;
         }
-
         .main {
             display: flex;
             justify-content: space-between;
         }
-
         .what-to-do {
             width: 35%;
         }
@@ -27,7 +25,6 @@
             border: solid black 1px;
             width: 65%;
         }
-
         .button {
             background-color: #cccccc;
             box-shadow: 0 0 10px rgba(0, 0, 0, 1);
@@ -38,34 +35,26 @@
             .button:hover {
                 background-color: #acacac;
             }
-
         .plants-manipulations {
             display: flex;
             justify-content: space-between;
         }
-
         #add-plant, #refresh-plants {
             width: 98%;
         }
-
         #delete-plant, #water-plants {
             width: 50%;
         }
-
         .input {
             width: 33%;
         }
-
         .input-fields {
             margin: 2%;
-            width: 100%;
+						border-top: 1px solid black;
             display: flex;
             justify-content: space-between;
         }
-
-
         #add-plant {
-
         }
     </style>
 </head>
@@ -77,10 +66,20 @@
                 <button class="button" id="water-plants">Полити рослини</button>
                 <button class="button" id="delete-plant">Видалити рослини</button>
             </div>
+
             <div class="input-fields">
-                <a class="input" id="input-plant"><input maxlength="25" size="15" value="Рослина"></a>
-                <a class="input" id="input-pot"><input maxlength="25" size="15" value="Ємність горщика"></a>
-                <a class="input" id="input-watter"><input maxlength="25" size="15" value="Вологість"></a>
+                <div class="input" id="input-plant">
+									Рослина:
+									<input maxlength="25" size="15">
+								</div>
+                <div class="input" id="input-pot">
+									Ємність горщика:
+									<input maxlength="25" size="15">
+								</div>
+                <div class="input" id="input-watter">
+									Вологість:
+									<input type="range" min="0" max="100" step="1" value="50">
+								</div>
             </div>
             <button class="button" id="add-plant">Додати рослину</button>
         </div>
