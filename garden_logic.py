@@ -4,6 +4,8 @@ garden_data = GardenData('plants.json', 'pots.json')
 
 
 class Pots:
+    FIELDS = ["plant", "water-percentage", "pot-size"]
+
     def __init__(self):
         self.json_wrap = garden_data.pots
 
@@ -22,11 +24,21 @@ class Pots:
             self.water_single(i)
 
     def add(self, data):
-        self.json_wrap.data['pots'].append(data)
+        new_data = {}
+        try:
+            for k in self.FIELDS:
+                new_data[k] = data[k]
+        except KeyError:
+            return 404
+        self.json_wrap.data['pots'].append(new_data)
 
     def update(self, i, data):
-        # TODO
-        pass
+        try:
+            for k, v in data:
+                self.json_wrap.data['pots'][i][self.FIELDS[self.FIELDS.index(k)]] = v
+                # self.json_wrap.data['pots'][i][k] = v
+        except KeyError:
+            return 404
 
 
 class Plants:

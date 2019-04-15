@@ -189,6 +189,19 @@ class GardenClient:
     def add_pot(self):
         self.pots_resource.post(self._prompt_pot)
 
+    """
+    
+    def _prompt_update_pot(self):
+        selected_json =  self._prompt_selection_post_json('checkbox', 'water', 'вазон')
+        ids = selected_json['ids']
+        for i in ids:
+            self.pots_resource.post(lambda: self._prompt_selection_post_json('checkbox', 'delete', 'вазон'))
+
+    def update_pot(self):
+        self.pots_resource.post(self._prompt_update_pot)
+        
+    """
+
     def delete_pot(self):
         self.pots_resource.post(lambda: self._prompt_selection_post_json('checkbox', 'delete', 'вазон'))
 

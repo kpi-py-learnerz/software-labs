@@ -34,6 +34,11 @@
    "name": "Weed",
    "watering-period": "10",
    "water-amount-per-cubic-decimeter": "10"
+  },
+  {
+   "name": "\u0417\u0435 \u0422\u0440\u0430\u0432\u0430",
+   "watering-period": "100",
+   "water-amount-per-cubic-decimeter": "1"
   }
  ]
 }
