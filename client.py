@@ -52,6 +52,12 @@ class ResourceClient:
     def get(self):
         return requests.get(self.uri).json()[self.json_key]
 
+    def put(self):
+        pass
+
+    def delete(self):
+        pass
+
     def print(self):
         resource = self.get()
         # print(resource)
