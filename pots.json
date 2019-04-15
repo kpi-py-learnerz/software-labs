@@ -16,7 +16,7 @@
   },
   {
    "plant": "Cactus",
-   "water-percentage": "10",
+   "water-percentage": "100",
    "pot-size": "999"
   },
   {
@@ -51,8 +51,8 @@
   },
   {
    "water-percentage": "0",
-   "pot-size": "100",
-   "plant": "Weed"
+   "pot-size": "1000",
+   "plant": "\u0417\u0435 \u0422\u0440\u0430\u0432\u0430"
   }
  ]
 }

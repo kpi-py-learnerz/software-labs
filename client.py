@@ -99,6 +99,20 @@ class ResourceClient:
         """
         return requests.get(self.uri).json()[self.json_key]
 
+    def put(self):
+        """
+
+        :return:
+        """
+        pass
+
+    def delete(self):
+        """
+
+        :return:
+        """
+        pass
+
     def print(self):
         """
         Prints pretty table designated by resource.
@@ -297,6 +311,17 @@ class GardenClient:
         :return: None
         """
         self.pots_resource.post(self._prompt_pot)
+
+    """
+    def _prompt_update_pot(self):
+        selected_json =  self._prompt_selection_post_json('checkbox', 'water', 'вазон')
+        ids = selected_json['ids']
+        for i in ids:
+            self.pots_resource.post(lambda: self._prompt_selection_post_json('checkbox', 'delete', 'вазон'))
+
+    def update_pot(self):
+        self.pots_resource.post(self._prompt_update_pot)
+    """
 
     def delete_pot(self):
         """
